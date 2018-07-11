@@ -1,0 +1,64 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The Tetris Challenge - tests</title>
+    <style type="text/css">
+        #tests{ text-align: left; }
+        #tests tr td, #tests tr th { padding:5px; }
+        .matrix-td { width:3pd; height:3px; border:1px solid #000; }
+    </style>
+</head>
+
+<body>
+
+    <table id="tests">
+        <tr>
+            <th>Area</th>
+            <th>Test</th>
+            <th>Result</th>
+            <th>Matrix</th>
+        </tr>
+    </table>
+
+    <script src="../tetrisGame.js"></script>
+
+    <script type="text/javascript">
+    
+        function appendTestResult(area, testName, result, colorMatrix){ 
+        
+            var matrixHtml = '';
+            if(colorMatrix){
+                matrixHtml += '<table>';
+                for(var y=0; y<colorMatrix.length; y++){
+                    matrixHtml += '<tr>';
+                    for(var x=0; x<colorMatrix[y].length; x++){
+                        var matrixVal = colorMatrix[y][x]
+                        var cssColor =  matrixVal ? '#'+matrixVal : "#FFFFFF";
+
+                        matrixHtml += '<td class="matrix-td" style="background-color:'+cssColor+'"></td>';
+                    }
+                    matrixHtml += '</tr>';
+                }
+                matrixHtml += '</table>';
+            }
+
+            var tr = document.createElement('tr');
+            tr.innerHTML = 
+                '<td>'+ area + '</td>' +
+                '<td>'+ testName + '</td>' +
+                '<td>'+ (result ? 'passed' : 'FAILED!') + '</td>' +
+                '<td>'+matrixHtml+'</td>';
+
+            var table = document.getElementById('tests');
+            table.appendChild(tr);
+        }
+
+    </script>
+  
+  <script src="gameblock.tests.js"></script>
+
+</body>
+</html>

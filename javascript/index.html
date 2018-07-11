@@ -1,0 +1,105 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The Tetris Challenge</title>
+  <link rel="stylesheet" href="game.css?v=1.0">
+
+  <style type="text/css">
+    #board { border-collapse: collapse; }
+    .board-td { width:3px; height:3px; border:1px solid #000; }
+    .hidden { display: none;}
+  </style>
+
+</head>
+
+<body>
+
+  <h1><div id="gameOver" class="hidden">GAME OVER</div></h1>
+  <h2><div id="score"></div></h2>
+  <table id="board">
+  </table>
+
+  <button onClick="return handleGameTick();">GameTick</button>
+  <button onClick="return handleMoveLeft();">MoveLeft</button>
+  <button onClick="return handleMoveRight();">MoveRight</button>
+  <button onClick="return handleRotateLeft();">RotateLeft</button>
+  <button onClick="return handleRotateRight();">RotateRight</button>
+  <button onClick="return handleReset();">ResetGame</button>
+  
+
+
+  <script src="tetrisGame.js"></script>
+
+  <script type="text/javascript">
+
+    var gameState = {
+      gameOver:false,
+      score:0
+    };
+
+    function updateBoard(){
+      var board = game.getBoard();
+
+      var boardHtml = '';
+      for(var y=0; y<board.length; y++){
+        boardHtml += '<tr>';
+        for(var x=0; x<board[y].length; x++){
+            var boardVal = board[y][x]
+            var cssColor =  boardVal ? '#'+boardVal : "#FFFFFF";
+
+            boardHtml += '<td class="board-td" style="background-color:'+cssColor+'"></td>';
+        }
+        boardHtml += '</tr>';
+      }
+
+      var tbl = document.getElementById('board');
+      tbl.innerHTML = boardHtml;
+
+      var gameOver = document.getElementById("gameOver");
+      gameOver.className = gameState.gameOver ? "" : "hidden";
+
+      var score = document.getElementById("score");
+      score.innerHTML = gameState.score;
+    }
+
+    function handleReset(){
+      game.resetGame();
+      gameState.gameOver = false;
+      gameState.score = 0;
+      updateBoard();
+    }
+
+    function handleGameTick(){
+      gameState = game.gameTick();
+      updateBoard();
+    }
+
+    function handleMoveLeft(){
+      gameState = game.moveLeft();
+      updateBoard();
+    }
+
+    function handleMoveRight(){
+      gameState = game.moveRight();
+      updateBoard();
+    }
+
+    function handleRotateLeft(){
+      gameState = game.rotateLeft();
+      updateBoard();
+    }
+
+    function handleRotateRight(){
+      gameState = game.rotateRight();
+      updateBoard();
+    }
+
+    updateBoard();
+
+  </script>
+
+</body>
+</html>
